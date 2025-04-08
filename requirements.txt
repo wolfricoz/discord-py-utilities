@@ -1,0 +1,4 @@
+pip~=23.2.1
+attrs~=25.3.0
+docutils~=0.21.2
+discord~=2.3.2
