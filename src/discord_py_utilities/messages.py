@@ -3,8 +3,8 @@ import logging
 import discord
 from discord.ext.commands.help import MISSING
 
-from src.exceptions import NoMessagePermissionException
-from src.permissions import check_missing_permissions
+from src.discord_py_utilities.exceptions import NoChannelException, NoMessagePermissionException
+from src.discord_py_utilities.permissions import check_missing_permissions
 
 MAX_LENGTH = 1800
 
