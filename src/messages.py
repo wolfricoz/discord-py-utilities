@@ -74,3 +74,24 @@ async def await_message(interaction, message) -> discord.Message | bool :
 	if m.content.lower() == "cancel" :
 		return False
 	return m
+
+
+async def fetch_message_or_none(channel: discord.TextChannel | discord.DMChannel | discord.Thread,
+                                id: int) -> discord.Message | None :
+	try :
+		return await channel.fetch_message(id)
+	except discord.errors.NotFound :
+		return None
+
+
+async def delete_message(message: discord.Message | discord.Thread) :
+	try :
+		await message.delete()
+	except discord.errors.Forbidden :
+		if isinstance(message, discord.Message) :
+			await send_message(message.channel, f"Could not delete message {message.jump_url}")
+			return
+		await send_message(message, f"Could not delete message {message.jump_url}")
+	except Exception as e :
+		logging.error(
+			f"Failed to delete {message} because {e}")
