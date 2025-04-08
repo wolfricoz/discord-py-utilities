@@ -2,8 +2,8 @@ import logging
 
 import discord
 
-from src.discord_py_utilities.exceptions import NoMessagePermissionException
-from src.discord_py_utilities.messages import send_message
+from .exceptions import NoMessagePermissionException
+from .messages import send_message
 
 
 async def ban_member(bans_class, interaction, user, reason, days=1, inform=False) :
