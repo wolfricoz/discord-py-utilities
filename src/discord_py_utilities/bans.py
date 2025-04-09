@@ -2,7 +2,7 @@ import logging
 
 import discord
 
-from .exceptions import NoMessagePermissionException
+from .exceptions import NoPermissionException
 from .messages import send_message
 
 
@@ -24,7 +24,7 @@ async def ban_member(bans_class, interaction, user, reason, days=1, inform=False
 		error = f"Missing permission to ban user {user.name}({user.id}). Check permissions: ban_members or if the bot is higher in the hierarchy than the user."
 		logging.error(error)
 		await interaction.channel.send(error)
-		raise NoMessagePermissionException(missing_permissions=['ban_members'])
+		raise NoPermissionException(required_perms=['ban_members'], guild=interaction.guild)
 
 
 async def ban_user(interaction: discord.Interaction, user: discord.User, ban_type, reason_modal, ban_class, inform=True,

@@ -1,9 +1,22 @@
-class NoMessagePermissionException(Exception) :
+import discord
+
+from .permissions import check_missing_channel_permissions, check_missing_guild_permissions
+
+
+class NoPermissionException(Exception) :
 	"""Raised when the bot does not have permission to send a message"""
 
-	def __init__(self, message="Missing permission to send message: ", missing_permissions: list = ()) :
-		self.message = message
-		super().__init__(self.message + ", ".join(missing_permissions))
+	def __init__(self, required_perms: str | list, channel: discord.TextChannel = None, guild: discord.Guild = None,
+	             message="Missing permission to send message: ", ) :
+		if isinstance(channel, discord.TextChannel) :
+			self.message = message + ", ".join(check_missing_channel_permissions(channel, required_perms))
+			super().__init__(self.message)
+		if isinstance(guild, discord.Guild) :
+			self.message = message + ", ".join(check_missing_guild_permissions(guild, required_perms))
+			super().__init__(self.message)
+
+	def __str__(self) :
+		return self.message
 
 
 class NoChannelException(Exception) :

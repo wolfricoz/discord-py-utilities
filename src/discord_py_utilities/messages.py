@@ -3,8 +3,7 @@ import logging
 import discord
 from discord.ext.commands.help import MISSING
 
-from .exceptions import NoChannelException, NoMessagePermissionException
-from .permissions import check_missing_permissions
+from .exceptions import NoChannelException, NoPermissionException
 
 MAX_LENGTH = 1800
 
@@ -27,11 +26,7 @@ async def send_message(channel: discord.TextChannel | discord.User | discord.Mem
 			return last_message
 	except discord.errors.Forbidden :
 		required_perms = ['view_channel', 'send_messages', 'embed_links', 'attach_files']
-		missing_perms = await check_missing_permissions(channel, required_perms)
-		logging.error(f"Missing permission to send message to {channel.mention} in {channel.guild.name}")
-		await channel.guild.owner.send(
-			f"Missing permission to send message to {channel.name}. Check permissions: {', '.join(missing_perms)}", )
-		raise NoMessagePermissionException(missing_permissions=missing_perms)
+		raise NoPermissionException(required_perms=required_perms, channel=channel)
 
 
 async def send_response(interaction: discord.Interaction, response, ephemeral=False, view=MISSING, embed=MISSING) :
@@ -45,7 +40,7 @@ async def send_response(interaction: discord.Interaction, response, ephemeral=Fa
 		logging.error(f"Missing permission to send message to {interaction.channel.name}")
 		await interaction.guild.owner.send(
 			f"Missing permission to send message to {interaction.channel.name}. Check permissions: {', '.join(missing_perms)}", )
-		raise NoMessagePermissionException(missing_permissions=missing_perms)
+		raise NoPermissionException(missing_permissions=missing_perms)
 	except discord.errors.NotFound or discord.InteractionResponded :
 		try :
 			await interaction.followup.send(
