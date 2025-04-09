@@ -30,7 +30,14 @@ async def send_message(channel: discord.TextChannel | discord.User | discord.Mem
 
 
 async def send_response(interaction: discord.Interaction, response, ephemeral=False, view=MISSING, embed=MISSING) :
-	"""Sends a response to an interaction. If the interaction is already responded, it will send a followup message."""
+	"""Sends a response to an interaction. If the interaction is already responded, it will send a followup message.
+	:param interaction:
+	:param response:
+	:param ephemeral:
+	:param view:
+	:param embed:
+	:return:
+	"""
 	try :
 
 		return await interaction.response.send_message(response, ephemeral=ephemeral, view=view, embed=embed, )
@@ -57,7 +64,11 @@ async def send_response(interaction: discord.Interaction, response, ephemeral=Fa
 
 
 async def await_message(interaction, message) -> discord.Message | bool :
-	"""Wait for a message from the user that triggered the interaction. If the message is 'cancel', return False."""
+	"""Wait for a message from the user that triggered the interaction. If the message is 'cancel', return False.
+	:param interaction:
+	:param message:
+	:return:
+	"""
 	msg: discord.Message = await send_message(interaction.channel,
 	                                          message)
 
@@ -80,6 +91,11 @@ async def fetch_message_or_none(channel: discord.TextChannel | discord.DMChannel
 
 
 async def delete_message(message: discord.Message | discord.Thread) :
+	"""
+
+	:param message:
+	:return:
+	"""
 	try :
 		await message.delete()
 	except discord.errors.Forbidden :

@@ -13,4 +13,5 @@ Discord Tools is a collection of tools designed to enhance the functionality and
 You can install the package using pip:
 
 ```bash
-pip install discord-tools
+pip install discord-py-utilities
+```

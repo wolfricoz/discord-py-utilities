@@ -7,6 +7,16 @@ from .messages import send_message
 
 
 async def ban_member(bans_class, interaction, user, reason, days=1, inform=False) :
+	"""
+
+	:param bans_class:
+	:param interaction:
+	:param user:
+	:param reason:
+	:param days:
+	:param inform:
+	:return:
+	"""
 	try :
 		await bans_class.add_ban(user.id, interaction.guild.id, reason, interaction.user.name)
 		await interaction.guild.ban(user, reason=reason, delete_message_days=days)
