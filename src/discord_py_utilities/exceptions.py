@@ -11,9 +11,13 @@ class NoPermissionException(Exception) :
 		if isinstance(channel, discord.TextChannel) :
 			self.message = message + ", ".join(check_missing_channel_permissions(channel, required_perms))
 			super().__init__(self.message)
+			return
 		if isinstance(guild, discord.Guild) :
 			self.message = message + ", ".join(check_missing_guild_permissions(guild, required_perms))
 			super().__init__(self.message)
+			return
+		self.message = message + "Unknown context (no channel or guild provided)."
+		super().__init__(self.message)
 
 	def __str__(self) :
 		return self.message
