@@ -26,6 +26,9 @@ def check_missing_channel_permissions(channel: discord.TextChannel,
 	:param permissions:
 	:return:
 	"""
+	if isinstance(channel, discord.User):
+		return ["User not added"]
+
 	if isinstance(permissions, str) :
 		permissions = [permissions]
 	bot_perms = channel.permissions_for(channel.guild.me)

@@ -1,2 +1,5 @@
 0.0.5:
 * Added permission checks
+0.0.7:
+* Added support for multiple types of error handling such as: ignore, error, warn to message.py.
+* Fixed a bug in exceptions.py where the error message was not being set correctly.
