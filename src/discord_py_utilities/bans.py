@@ -29,6 +29,8 @@ async def ban_member(bans_class, interaction, user, reason, days=1, inform=False
 			await user.send(f"You have been banned from {interaction.guild.name} for `{reason}`")
 		except discord.errors.Forbidden :
 			pass
+		except Exception as e:
+			logging.warning(f"could not dm user: {e}")
 
 	except discord.Forbidden :
 		error = f"Missing permission to ban user {user.name}({user.id}). Check permissions: ban_members or if the bot is higher in the hierarchy than the user."
