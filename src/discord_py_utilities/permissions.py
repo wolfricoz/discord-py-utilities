@@ -78,3 +78,17 @@ def check_bot_channel_permissions(channel: discord.TextChannel,
 	if permissions is None :
 		return [perm for perm in PERMISSIONS if getattr(bot_perms, perm)]
 	return [perm for perm in permissions if getattr(bot_perms, perm)]
+
+def find_first_accessible_text_channel(guild: discord.Guild) -> discord.TextChannel | None:
+	"""
+	Finds the first text channel in a guild where the bot has basic access permissions.
+	Returns None if no such channel is found.
+	"""
+	for channel in guild.text_channels:
+		if not isinstance(channel, discord.TextChannel):
+			continue
+
+		missing = check_missing_channel_permissions(channel, ["view_channel", "send_messages"])
+		if not missing:
+			return channel
+	return None

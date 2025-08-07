@@ -58,8 +58,8 @@ async def send_message(channel: discord.TextChannel | discord.User | discord.Mem
 		raise NoChannelException
 	try :
 		length = 0
-		if message is None :
-			return await channel.send(embed=embed, view=view, files=files)
+		if len(message) < 1 :
+			message = " "
 		while length < len(message) :
 			last_message = await channel.send(message[length :length + MAX_LENGTH], embed=embed, view=view, files=files)
 			length += MAX_LENGTH
@@ -80,7 +80,8 @@ async def send_response(interaction: discord.Interaction, response, ephemeral=Fa
 	:return:
 	"""
 	try :
-
+		if len(response) < 1 :
+			response = " "
 		return await interaction.response.send_message(response, ephemeral=ephemeral, view=view, embed=embed)
 	except discord.errors.Forbidden :
 		await handle_no_permission(interaction.channel, error_mode=error_mode)
@@ -153,3 +154,4 @@ async def delete_message(message: discord.Message | discord.Thread) :
 	except Exception as e :
 		logging.error(
 			f"Failed to delete {message} because {e}")
+
