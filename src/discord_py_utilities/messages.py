@@ -58,7 +58,7 @@ async def send_message(channel: discord.TextChannel | discord.User | discord.Mem
 		raise NoChannelException
 	try :
 		length = 0
-		if len(message) < 1 :
+		if not message or len(message) < 1 :
 			message = " "
 		while length < len(message) :
 			last_message = await channel.send(message[length :length + MAX_LENGTH], embed=embed, view=view, files=files)
@@ -80,7 +80,7 @@ async def send_response(interaction: discord.Interaction, response, ephemeral=Fa
 	:return:
 	"""
 	try :
-		if len(response) < 1 :
+		if not response or len(response) < 1 :
 			response = " "
 		return await interaction.response.send_message(response, ephemeral=ephemeral, view=view, embed=embed)
 	except discord.errors.Forbidden :
