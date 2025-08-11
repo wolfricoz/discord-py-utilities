@@ -1,0 +1,307 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>discord_py_utilities package &mdash; discord-py-utilities 0.0.6 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=1fd71caa"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="&lt;no title&gt;" href="modules.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            discord-py-utilities
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">discord_py_utilities package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-discord_py_utilities.bans">discord_py_utilities.bans module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#discord_py_utilities.bans.ban_member"><code class="docutils literal notranslate"><span class="pre">ban_member()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#discord_py_utilities.bans.ban_user"><code class="docutils literal notranslate"><span class="pre">ban_user()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#discord_py_utilities.bans.dm_user"><code class="docutils literal notranslate"><span class="pre">dm_user()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#module-discord_py_utilities.exceptions">discord_py_utilities.exceptions module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#discord_py_utilities.exceptions.NoChannelException"><code class="docutils literal notranslate"><span class="pre">NoChannelException</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#discord_py_utilities.exceptions.NoPermissionException"><code class="docutils literal notranslate"><span class="pre">NoPermissionException</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#module-discord_py_utilities.messages">discord_py_utilities.messages module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#discord_py_utilities.messages.await_message"><code class="docutils literal notranslate"><span class="pre">await_message()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#discord_py_utilities.messages.delete_message"><code class="docutils literal notranslate"><span class="pre">delete_message()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#discord_py_utilities.messages.fetch_message_or_none"><code class="docutils literal notranslate"><span class="pre">fetch_message_or_none()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#discord_py_utilities.messages.handle_no_permission"><code class="docutils literal notranslate"><span class="pre">handle_no_permission()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#discord_py_utilities.messages.send_message"><code class="docutils literal notranslate"><span class="pre">send_message()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#discord_py_utilities.messages.send_response"><code class="docutils literal notranslate"><span class="pre">send_response()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#module-discord_py_utilities.permissions">discord_py_utilities.permissions module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#discord_py_utilities.permissions.check_bot_channel_permissions"><code class="docutils literal notranslate"><span class="pre">check_bot_channel_permissions()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#discord_py_utilities.permissions.check_missing_channel_permissions"><code class="docutils literal notranslate"><span class="pre">check_missing_channel_permissions()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#discord_py_utilities.permissions.check_missing_guild_permissions"><code class="docutils literal notranslate"><span class="pre">check_missing_guild_permissions()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#discord_py_utilities.permissions.find_first_accessible_text_channel"><code class="docutils literal notranslate"><span class="pre">find_first_accessible_text_channel()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#discord_py_utilities.permissions.get_bot_permissions"><code class="docutils literal notranslate"><span class="pre">get_bot_permissions()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#module-discord_py_utilities">Module contents</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">discord-py-utilities</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="modules.html">&lt;no title&gt;</a></li>
+      <li class="breadcrumb-item active">discord_py_utilities package</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/discord_py_utilities.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="discord-py-utilities-package">
+<h1>discord_py_utilities package<a class="headerlink" href="#discord-py-utilities-package" title="Link to this heading"></a></h1>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Link to this heading"></a></h2>
+</section>
+<section id="module-discord_py_utilities.bans">
+<span id="discord-py-utilities-bans-module"></span><h2>discord_py_utilities.bans module<a class="headerlink" href="#module-discord_py_utilities.bans" title="Link to this heading"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="discord_py_utilities.bans.ban_member">
+<em class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">discord_py_utilities.bans.</span></span><span class="sig-name descname"><span class="pre">ban_member</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">bans_class</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">interaction</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">user</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reason</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">days</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">inform</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/discord_py_utilities/bans.html#ban_member"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#discord_py_utilities.bans.ban_member" title="Link to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>bans_class</strong></p></li>
+<li><p><strong>interaction</strong></p></li>
+<li><p><strong>user</strong></p></li>
+<li><p><strong>reason</strong></p></li>
+<li><p><strong>days</strong></p></li>
+<li><p><strong>inform</strong></p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="discord_py_utilities.bans.ban_user">
+<em class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">discord_py_utilities.bans.</span></span><span class="sig-name descname"><span class="pre">ban_user</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">interaction</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Interaction</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">user</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">User</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ban_type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reason_modal</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ban_class</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">inform</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">clean</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/discord_py_utilities/bans.html#ban_user"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#discord_py_utilities.bans.ban_user" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="discord_py_utilities.bans.dm_user">
+<em class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">discord_py_utilities.bans.</span></span><span class="sig-name descname"><span class="pre">dm_user</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">interaction</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reason_modal</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">user</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/discord_py_utilities/bans.html#dm_user"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#discord_py_utilities.bans.dm_user" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</section>
+<section id="module-discord_py_utilities.exceptions">
+<span id="discord-py-utilities-exceptions-module"></span><h2>discord_py_utilities.exceptions module<a class="headerlink" href="#module-discord_py_utilities.exceptions" title="Link to this heading"></a></h2>
+<dl class="py exception">
+<dt class="sig sig-object py" id="discord_py_utilities.exceptions.NoChannelException">
+<em class="property"><span class="k"><span class="pre">exception</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">discord_py_utilities.exceptions.</span></span><span class="sig-name descname"><span class="pre">NoChannelException</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">message</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'No</span> <span class="pre">channel</span> <span class="pre">set</span> <span class="pre">or</span> <span class="pre">does</span> <span class="pre">not</span> <span class="pre">exist,</span> <span class="pre">check</span> <span class="pre">the</span> <span class="pre">config</span> <span class="pre">or</span> <span class="pre">fill</span> <span class="pre">in</span> <span class="pre">the</span> <span class="pre">required</span> <span class="pre">arguments.'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/discord_py_utilities/exceptions.html#NoChannelException"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#discord_py_utilities.exceptions.NoChannelException" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Exception</span></code></p>
+<p>Raised when the server does not have a channel set to send a message</p>
+</dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="discord_py_utilities.exceptions.NoPermissionException">
+<em class="property"><span class="k"><span class="pre">exception</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">discord_py_utilities.exceptions.</span></span><span class="sig-name descname"><span class="pre">NoPermissionException</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">required_perms</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">channel</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">TextChannel</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">guild</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Guild</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">message</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'Missing</span> <span class="pre">permission</span> <span class="pre">to</span> <span class="pre">send</span> <span class="pre">message:</span> <span class="pre">'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/discord_py_utilities/exceptions.html#NoPermissionException"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#discord_py_utilities.exceptions.NoPermissionException" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Exception</span></code></p>
+<p>Raised when the bot does not have permission to send a message</p>
+</dd></dl>
+
+</section>
+<section id="module-discord_py_utilities.messages">
+<span id="discord-py-utilities-messages-module"></span><h2>discord_py_utilities.messages module<a class="headerlink" href="#module-discord_py_utilities.messages" title="Link to this heading"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="discord_py_utilities.messages.await_message">
+<em class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">discord_py_utilities.messages.</span></span><span class="sig-name descname"><span class="pre">await_message</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">interaction</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">message</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Message</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">bool</span></span></span><a class="reference internal" href="_modules/discord_py_utilities/messages.html#await_message"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#discord_py_utilities.messages.await_message" title="Link to this definition"></a></dt>
+<dd><p>Wait for a message from the user that triggered the interaction. If the message is ‘cancel’, return False.
+:param interaction:
+:param message:
+:return:</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="discord_py_utilities.messages.delete_message">
+<em class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">discord_py_utilities.messages.</span></span><span class="sig-name descname"><span class="pre">delete_message</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">message</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Message</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Thread</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/discord_py_utilities/messages.html#delete_message"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#discord_py_utilities.messages.delete_message" title="Link to this definition"></a></dt>
+<dd><p>Delete a message. If the message is not found, return None. If the message is not found, send a message to the channel.
+:param message:
+:return:</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="discord_py_utilities.messages.fetch_message_or_none">
+<em class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">discord_py_utilities.messages.</span></span><span class="sig-name descname"><span class="pre">fetch_message_or_none</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">channel</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">TextChannel</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">DMChannel</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Thread</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">wait</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Message</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></span><a class="reference internal" href="_modules/discord_py_utilities/messages.html#fetch_message_or_none"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#discord_py_utilities.messages.fetch_message_or_none" title="Link to this definition"></a></dt>
+<dd><p>Fetch a message from a channel. If the message is not found, return None. Wait for a specified amount of time before fetching the message; useful for fetching starting message of threads as they often have delays.
+:param wait:
+:return:
+:param channel:
+:param id:
+:return:</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="discord_py_utilities.messages.handle_no_permission">
+<em class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">discord_py_utilities.messages.</span></span><span class="sig-name descname"><span class="pre">handle_no_permission</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">channel</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">TextChannel</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">User</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Member</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">error_mode</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'error'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/discord_py_utilities/messages.html#handle_no_permission"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#discord_py_utilities.messages.handle_no_permission" title="Link to this definition"></a></dt>
+<dd><p>Handles no permission errors within the code based on error_modes: error, warn, ignore.
+Error: Raises NoPermissionException
+Warn: Logs a warning message and sends a message to the owner of the guild.
+Ignore: Does nothing.
+:param channel:
+:param error_mode:</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="discord_py_utilities.messages.send_message">
+<em class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">discord_py_utilities.messages.</span></span><span class="sig-name descname"><span class="pre">send_message</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">channel</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">TextChannel</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">User</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Member</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">message</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">embed</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">view</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">files</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">error_mode</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'error'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Message</span></span></span><a class="reference internal" href="_modules/discord_py_utilities/messages.html#send_message"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#discord_py_utilities.messages.send_message" title="Link to this definition"></a></dt>
+<dd><p>Send a message to a channel, if there is no permission it will send an error message to the owner. Automatically handles messages longer than 2000 characters by splitting them into multiple messages.
+:param channel:
+:param message:
+:param embed:
+:param view:
+:param files:
+:param error_mode:
+:return:</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="discord_py_utilities.messages.send_response">
+<em class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">discord_py_utilities.messages.</span></span><span class="sig-name descname"><span class="pre">send_response</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">interaction</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Interaction</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">response</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ephemeral</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">view</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">...</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">embed</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">...</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">error_mode</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'error'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/discord_py_utilities/messages.html#send_response"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#discord_py_utilities.messages.send_response" title="Link to this definition"></a></dt>
+<dd><p>Sends a response to an interaction. If the interaction is already responded, it will send a followup message.
+:param error_mode:
+:param interaction:
+:param response:
+:param ephemeral:
+:param view:
+:param embed:
+:return:</p>
+</dd></dl>
+
+</section>
+<section id="module-discord_py_utilities.permissions">
+<span id="discord-py-utilities-permissions-module"></span><h2>discord_py_utilities.permissions module<a class="headerlink" href="#module-discord_py_utilities.permissions" title="Link to this heading"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="discord_py_utilities.permissions.check_bot_channel_permissions">
+<span class="sig-prename descclassname"><span class="pre">discord_py_utilities.permissions.</span></span><span class="sig-name descname"><span class="pre">check_bot_channel_permissions</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">channel</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">TextChannel</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">permissions</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/discord_py_utilities/permissions.html#check_bot_channel_permissions"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#discord_py_utilities.permissions.check_bot_channel_permissions" title="Link to this definition"></a></dt>
+<dd><p>Check if the bot has the required permissions in the channel, if no permissions are specified, it will return all the permissions the bot has in the channel.
+:param channel:
+:param permissions:
+:return:</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="discord_py_utilities.permissions.check_missing_channel_permissions">
+<span class="sig-prename descclassname"><span class="pre">discord_py_utilities.permissions.</span></span><span class="sig-name descname"><span class="pre">check_missing_channel_permissions</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">channel</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">TextChannel</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">permissions</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">list</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span></span></span><a class="reference internal" href="_modules/discord_py_utilities/permissions.html#check_missing_channel_permissions"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#discord_py_utilities.permissions.check_missing_channel_permissions" title="Link to this definition"></a></dt>
+<dd><p>Check which permissions are missing for the bot in the specified channel.
+:param channel:
+:param permissions:
+:return:</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="discord_py_utilities.permissions.check_missing_guild_permissions">
+<span class="sig-prename descclassname"><span class="pre">discord_py_utilities.permissions.</span></span><span class="sig-name descname"><span class="pre">check_missing_guild_permissions</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">guild</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Guild</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">permissions</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/discord_py_utilities/permissions.html#check_missing_guild_permissions"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#discord_py_utilities.permissions.check_missing_guild_permissions" title="Link to this definition"></a></dt>
+<dd><p>Check if the bot is missing the required permissions in the guild and returns a list with the missing permissions.
+:param guild:
+:param permissions:</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="discord_py_utilities.permissions.find_first_accessible_text_channel">
+<span class="sig-prename descclassname"><span class="pre">discord_py_utilities.permissions.</span></span><span class="sig-name descname"><span class="pre">find_first_accessible_text_channel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">guild</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Guild</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">TextChannel</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></span><a class="reference internal" href="_modules/discord_py_utilities/permissions.html#find_first_accessible_text_channel"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#discord_py_utilities.permissions.find_first_accessible_text_channel" title="Link to this definition"></a></dt>
+<dd><p>Finds the first text channel in a guild where the bot has basic access permissions.
+Returns None if no such channel is found.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="discord_py_utilities.permissions.get_bot_permissions">
+<span class="sig-prename descclassname"><span class="pre">discord_py_utilities.permissions.</span></span><span class="sig-name descname"><span class="pre">get_bot_permissions</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">guild</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Guild</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Permissions</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">dict</span></span></span><a class="reference internal" href="_modules/discord_py_utilities/permissions.html#get_bot_permissions"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#discord_py_utilities.permissions.get_bot_permissions" title="Link to this definition"></a></dt>
+<dd><p>Get all the permissions of the bot in the guild.
+:param guild:</p>
+</dd></dl>
+
+</section>
+<section id="module-discord_py_utilities">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-discord_py_utilities" title="Link to this heading"></a></h2>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="modules.html" class="btn btn-neutral float-left" title="&lt;no title&gt;" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Rico Stryker.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

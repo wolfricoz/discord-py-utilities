@@ -1,0 +1,276 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>discord_py_utilities.messages &mdash; discord-py-utilities 0.0.6 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=1fd71caa"></script>
+      <script src="../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            discord-py-utilities
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../discord_py_utilities.html">discord_py_utilities package</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">discord-py-utilities</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">discord_py_utilities.messages</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for discord_py_utilities.messages</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">asyncio</span>
+<span class="kn">import</span> <span class="nn">logging</span>
+
+<span class="kn">import</span> <span class="nn">discord</span>
+<span class="kn">from</span> <span class="nn">discord.ext.commands.help</span> <span class="kn">import</span> <span class="n">MISSING</span>
+
+<span class="kn">from</span> <span class="nn">.exceptions</span> <span class="kn">import</span> <span class="n">NoChannelException</span><span class="p">,</span> <span class="n">NoPermissionException</span>
+<span class="kn">from</span> <span class="nn">.permissions</span> <span class="kn">import</span> <span class="n">check_missing_channel_permissions</span>
+
+<span class="n">MAX_LENGTH</span> <span class="o">=</span> <span class="mi">1800</span>
+
+
+<div class="viewcode-block" id="handle_no_permission">
+<a class="viewcode-back" href="../../discord_py_utilities.html#discord_py_utilities.messages.handle_no_permission">[docs]</a>
+<span class="k">async</span> <span class="k">def</span> <span class="nf">handle_no_permission</span><span class="p">(</span><span class="n">channel</span><span class="p">:</span> <span class="n">discord</span><span class="o">.</span><span class="n">TextChannel</span> <span class="o">|</span> <span class="n">discord</span><span class="o">.</span><span class="n">User</span> <span class="o">|</span> <span class="n">discord</span><span class="o">.</span><span class="n">Member</span><span class="p">,</span>
+                               <span class="n">error_mode</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;error&#39;</span><span class="p">)</span> <span class="p">:</span>
+<span class="w">	</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">	Handles no permission errors within the code based on error_modes: error, warn, ignore.</span>
+<span class="sd">	Error: Raises NoPermissionException</span>
+<span class="sd">	Warn: Logs a warning message and sends a message to the owner of the guild.</span>
+<span class="sd">	Ignore: Does nothing.</span>
+<span class="sd">	:param channel:</span>
+<span class="sd">	:param error_mode:</span>
+<span class="sd">	&quot;&quot;&quot;</span>
+	<span class="k">match</span> <span class="n">error_mode</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="p">:</span>
+		<span class="k">case</span> <span class="s1">&#39;error&#39;</span> <span class="p">:</span>
+			<span class="n">missing_perms</span> <span class="o">=</span> <span class="n">check_missing_channel_permissions</span><span class="p">(</span><span class="n">channel</span><span class="p">,</span>
+			                                                  <span class="p">[</span><span class="s1">&#39;view_channel&#39;</span><span class="p">,</span> <span class="s1">&#39;send_messages&#39;</span><span class="p">,</span> <span class="s1">&#39;embed_links&#39;</span><span class="p">,</span>
+			                                                   <span class="s1">&#39;attach_files&#39;</span><span class="p">])</span>
+			<span class="k">raise</span> <span class="n">NoPermissionException</span><span class="p">(</span><span class="n">required_perms</span><span class="o">=</span><span class="n">missing_perms</span><span class="p">,</span> <span class="n">channel</span><span class="o">=</span><span class="n">channel</span><span class="p">)</span>
+		<span class="k">case</span> <span class="s1">&#39;warn&#39;</span> <span class="p">:</span>
+			<span class="n">missing_perms</span> <span class="o">=</span> <span class="n">check_missing_channel_permissions</span><span class="p">(</span><span class="n">channel</span><span class="p">,</span>
+			                                                  <span class="p">[</span><span class="s1">&#39;view_channel&#39;</span><span class="p">,</span> <span class="s1">&#39;send_messages&#39;</span><span class="p">,</span> <span class="s1">&#39;embed_links&#39;</span><span class="p">,</span>
+			                                                   <span class="s1">&#39;attach_files&#39;</span><span class="p">])</span>
+			<span class="n">logging</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Missing permission to send message to </span><span class="si">{</span><span class="n">channel</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+			<span class="k">await</span> <span class="n">channel</span><span class="o">.</span><span class="n">guild</span><span class="o">.</span><span class="n">owner</span><span class="o">.</span><span class="n">send</span><span class="p">(</span>
+				<span class="sa">f</span><span class="s2">&quot;Missing permission to send message to </span><span class="si">{</span><span class="n">channel</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">. Check permissions: </span><span class="si">{</span><span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">missing_perms</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="p">)</span>
+		<span class="k">case</span> <span class="s1">&#39;ignore&#39;</span> <span class="p">:</span>
+			<span class="n">logging</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Missing permission to send message to </span><span class="si">{</span><span class="n">channel</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">. Ignoring.&quot;</span><span class="p">)</span>
+		<span class="k">case</span><span class="w"> </span><span class="k">_</span> <span class="p">:</span>
+			<span class="n">logging</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Missing valid error_mode, defaulting to error.&quot;</span><span class="p">)</span>
+			<span class="n">missing_perms</span> <span class="o">=</span> <span class="n">check_missing_channel_permissions</span><span class="p">(</span><span class="n">channel</span><span class="p">,</span>
+			                                                  <span class="p">[</span><span class="s1">&#39;view_channel&#39;</span><span class="p">,</span> <span class="s1">&#39;send_messages&#39;</span><span class="p">,</span> <span class="s1">&#39;embed_links&#39;</span><span class="p">,</span> <span class="s1">&#39;attach_files&#39;</span><span class="p">])</span>
+			<span class="k">raise</span> <span class="n">NoPermissionException</span><span class="p">(</span><span class="n">required_perms</span><span class="o">=</span><span class="n">missing_perms</span><span class="p">,</span> <span class="n">channel</span><span class="o">=</span><span class="n">channel</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="send_message">
+<a class="viewcode-back" href="../../discord_py_utilities.html#discord_py_utilities.messages.send_message">[docs]</a>
+<span class="k">async</span> <span class="k">def</span> <span class="nf">send_message</span><span class="p">(</span><span class="n">channel</span><span class="p">:</span> <span class="n">discord</span><span class="o">.</span><span class="n">TextChannel</span> <span class="o">|</span> <span class="n">discord</span><span class="o">.</span><span class="n">User</span> <span class="o">|</span> <span class="n">discord</span><span class="o">.</span><span class="n">Member</span><span class="p">,</span> <span class="n">message</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">embed</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                       <span class="n">view</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">files</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">error_mode</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;error&#39;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">discord</span><span class="o">.</span><span class="n">Message</span> <span class="p">:</span>
+<span class="w">	</span><span class="sd">&quot;&quot;&quot;Send a message to a channel, if there is no permission it will send an error message to the owner. Automatically handles messages longer than 2000 characters by splitting them into multiple messages.</span>
+<span class="sd">	:param channel:</span>
+<span class="sd">	:param message:</span>
+<span class="sd">	:param embed:</span>
+<span class="sd">	:param view:</span>
+<span class="sd">	:param files:</span>
+<span class="sd">	:param error_mode:</span>
+<span class="sd">	:return:</span>
+<span class="sd">	&quot;&quot;&quot;</span>
+	<span class="n">last_message</span> <span class="o">=</span> <span class="kc">None</span>
+	<span class="k">if</span> <span class="n">channel</span> <span class="ow">is</span> <span class="kc">None</span> <span class="p">:</span>
+		<span class="k">raise</span> <span class="n">NoChannelException</span>
+	<span class="k">try</span> <span class="p">:</span>
+		<span class="n">length</span> <span class="o">=</span> <span class="mi">0</span>
+		<span class="k">if</span> <span class="ow">not</span> <span class="n">message</span> <span class="ow">or</span> <span class="nb">len</span><span class="p">(</span><span class="n">message</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">1</span> <span class="p">:</span>
+			<span class="n">message</span> <span class="o">=</span> <span class="s2">&quot; &quot;</span>
+		<span class="k">while</span> <span class="n">length</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">message</span><span class="p">)</span> <span class="p">:</span>
+			<span class="n">last_message</span> <span class="o">=</span> <span class="k">await</span> <span class="n">channel</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">message</span><span class="p">[</span><span class="n">length</span> <span class="p">:</span><span class="n">length</span> <span class="o">+</span> <span class="n">MAX_LENGTH</span><span class="p">],</span> <span class="n">embed</span><span class="o">=</span><span class="n">embed</span><span class="p">,</span> <span class="n">view</span><span class="o">=</span><span class="n">view</span><span class="p">,</span> <span class="n">files</span><span class="o">=</span><span class="n">files</span><span class="p">)</span>
+			<span class="n">length</span> <span class="o">+=</span> <span class="n">MAX_LENGTH</span>
+		<span class="k">else</span> <span class="p">:</span>
+			<span class="k">return</span> <span class="n">last_message</span>
+	<span class="k">except</span> <span class="n">discord</span><span class="o">.</span><span class="n">errors</span><span class="o">.</span><span class="n">Forbidden</span> <span class="p">:</span>
+		<span class="k">await</span> <span class="n">handle_no_permission</span><span class="p">(</span><span class="n">channel</span><span class="p">,</span> <span class="n">error_mode</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="send_response">
+<a class="viewcode-back" href="../../discord_py_utilities.html#discord_py_utilities.messages.send_response">[docs]</a>
+<span class="k">async</span> <span class="k">def</span> <span class="nf">send_response</span><span class="p">(</span><span class="n">interaction</span><span class="p">:</span> <span class="n">discord</span><span class="o">.</span><span class="n">Interaction</span><span class="p">,</span> <span class="n">response</span><span class="p">,</span> <span class="n">ephemeral</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">view</span><span class="o">=</span><span class="n">MISSING</span><span class="p">,</span> <span class="n">embed</span><span class="o">=</span><span class="n">MISSING</span><span class="p">,</span> <span class="n">error_mode</span> <span class="o">=</span> <span class="s1">&#39;error&#39;</span><span class="p">)</span> <span class="p">:</span>
+<span class="w">	</span><span class="sd">&quot;&quot;&quot;Sends a response to an interaction. If the interaction is already responded, it will send a followup message.</span>
+<span class="sd">	:param error_mode:</span>
+<span class="sd">	:param interaction:</span>
+<span class="sd">	:param response:</span>
+<span class="sd">	:param ephemeral:</span>
+<span class="sd">	:param view:</span>
+<span class="sd">	:param embed:</span>
+<span class="sd">	:return:</span>
+<span class="sd">	&quot;&quot;&quot;</span>
+	<span class="k">try</span> <span class="p">:</span>
+		<span class="k">if</span> <span class="ow">not</span> <span class="n">response</span> <span class="ow">or</span> <span class="nb">len</span><span class="p">(</span><span class="n">response</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">1</span> <span class="p">:</span>
+			<span class="n">response</span> <span class="o">=</span> <span class="s2">&quot; &quot;</span>
+		<span class="k">return</span> <span class="k">await</span> <span class="n">interaction</span><span class="o">.</span><span class="n">response</span><span class="o">.</span><span class="n">send_message</span><span class="p">(</span><span class="n">response</span><span class="p">,</span> <span class="n">ephemeral</span><span class="o">=</span><span class="n">ephemeral</span><span class="p">,</span> <span class="n">view</span><span class="o">=</span><span class="n">view</span><span class="p">,</span> <span class="n">embed</span><span class="o">=</span><span class="n">embed</span><span class="p">)</span>
+	<span class="k">except</span> <span class="n">discord</span><span class="o">.</span><span class="n">errors</span><span class="o">.</span><span class="n">Forbidden</span> <span class="p">:</span>
+		<span class="k">await</span> <span class="n">handle_no_permission</span><span class="p">(</span><span class="n">interaction</span><span class="o">.</span><span class="n">channel</span><span class="p">,</span> <span class="n">error_mode</span><span class="o">=</span><span class="n">error_mode</span><span class="p">)</span>
+	<span class="k">except</span> <span class="n">discord</span><span class="o">.</span><span class="n">errors</span><span class="o">.</span><span class="n">NotFound</span> <span class="ow">or</span> <span class="n">discord</span><span class="o">.</span><span class="n">InteractionResponded</span> <span class="p">:</span>
+		<span class="k">try</span> <span class="p">:</span>
+			<span class="k">await</span> <span class="n">interaction</span><span class="o">.</span><span class="n">followup</span><span class="o">.</span><span class="n">send</span><span class="p">(</span>
+				<span class="n">response</span><span class="p">,</span>
+				<span class="n">ephemeral</span><span class="o">=</span><span class="n">ephemeral</span><span class="p">,</span>
+				<span class="n">view</span><span class="o">=</span><span class="n">view</span><span class="p">,</span>
+				<span class="n">embed</span><span class="o">=</span><span class="n">embed</span><span class="p">,</span>
+
+			<span class="p">)</span>
+		<span class="k">except</span> <span class="n">discord</span><span class="o">.</span><span class="n">errors</span><span class="o">.</span><span class="n">NotFound</span> <span class="p">:</span>
+			<span class="k">await</span> <span class="n">send_message</span><span class="p">(</span><span class="n">interaction</span><span class="o">.</span><span class="n">channel</span><span class="p">,</span> <span class="n">response</span><span class="p">,</span> <span class="n">view</span><span class="o">=</span><span class="n">view</span><span class="p">,</span> <span class="n">embed</span><span class="o">=</span><span class="n">embed</span><span class="p">)</span>
+
+
+	<span class="k">except</span> <span class="ne">Exception</span> <span class="p">:</span>
+		<span class="k">return</span> <span class="k">await</span> <span class="n">send_message</span><span class="p">(</span><span class="n">interaction</span><span class="o">.</span><span class="n">channel</span> <span class="p">,</span><span class="n">response</span><span class="p">,</span> <span class="n">view</span><span class="o">=</span><span class="n">view</span><span class="p">,</span> <span class="n">embed</span><span class="o">=</span><span class="n">embed</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="await_message">
+<a class="viewcode-back" href="../../discord_py_utilities.html#discord_py_utilities.messages.await_message">[docs]</a>
+<span class="k">async</span> <span class="k">def</span> <span class="nf">await_message</span><span class="p">(</span><span class="n">interaction</span><span class="p">,</span> <span class="n">message</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">discord</span><span class="o">.</span><span class="n">Message</span> <span class="o">|</span> <span class="nb">bool</span> <span class="p">:</span>
+<span class="w">	</span><span class="sd">&quot;&quot;&quot;Wait for a message from the user that triggered the interaction. If the message is &#39;cancel&#39;, return False.</span>
+<span class="sd">	:param interaction:</span>
+<span class="sd">	:param message:</span>
+<span class="sd">	:return:</span>
+<span class="sd">	&quot;&quot;&quot;</span>
+	<span class="n">msg</span><span class="p">:</span> <span class="n">discord</span><span class="o">.</span><span class="n">Message</span> <span class="o">=</span> <span class="k">await</span> <span class="n">send_message</span><span class="p">(</span><span class="n">interaction</span><span class="o">.</span><span class="n">channel</span><span class="p">,</span>
+	                                          <span class="n">message</span><span class="p">)</span>
+
+	<span class="k">def</span> <span class="nf">check_message</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="n">interaction</span><span class="p">)</span> <span class="p">:</span>
+		<span class="k">return</span> <span class="n">m</span><span class="o">.</span><span class="n">author</span> <span class="o">==</span> <span class="n">interaction</span><span class="o">.</span><span class="n">user</span> <span class="ow">and</span> <span class="n">m</span><span class="o">.</span><span class="n">channel</span> <span class="o">==</span> <span class="n">interaction</span><span class="o">.</span><span class="n">channel</span>
+
+	<span class="n">m</span> <span class="o">=</span> <span class="k">await</span> <span class="n">interaction</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">wait_for</span><span class="p">(</span><span class="s1">&#39;message&#39;</span><span class="p">,</span> <span class="n">check</span><span class="o">=</span><span class="k">lambda</span> <span class="n">m</span> <span class="p">:</span> <span class="n">check_message</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="n">interaction</span><span class="p">),</span> <span class="n">timeout</span><span class="o">=</span><span class="mi">600</span><span class="p">)</span>
+	<span class="k">await</span> <span class="n">msg</span><span class="o">.</span><span class="n">delete</span><span class="p">()</span>
+	<span class="k">if</span> <span class="n">m</span><span class="o">.</span><span class="n">content</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;cancel&quot;</span> <span class="p">:</span>
+		<span class="k">return</span> <span class="kc">False</span>
+	<span class="k">return</span> <span class="n">m</span></div>
+
+
+
+<div class="viewcode-block" id="fetch_message_or_none">
+<a class="viewcode-back" href="../../discord_py_utilities.html#discord_py_utilities.messages.fetch_message_or_none">[docs]</a>
+<span class="k">async</span> <span class="k">def</span> <span class="nf">fetch_message_or_none</span><span class="p">(</span><span class="n">channel</span><span class="p">:</span> <span class="n">discord</span><span class="o">.</span><span class="n">TextChannel</span> <span class="o">|</span> <span class="n">discord</span><span class="o">.</span><span class="n">DMChannel</span> <span class="o">|</span> <span class="n">discord</span><span class="o">.</span><span class="n">Thread</span><span class="p">,</span>
+                                <span class="nb">id</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">wait</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">discord</span><span class="o">.</span><span class="n">Message</span> <span class="o">|</span> <span class="kc">None</span> <span class="p">:</span>
+<span class="w">	</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">	Fetch a message from a channel. If the message is not found, return None. Wait for a specified amount of time before fetching the message; useful for fetching starting message of threads as they often have delays.</span>
+<span class="sd">	:param wait:</span>
+<span class="sd">	:return:</span>
+<span class="sd">	:param channel:</span>
+<span class="sd">	:param id:</span>
+<span class="sd">	:return:</span>
+<span class="sd">	&quot;&quot;&quot;</span>
+	<span class="k">try</span> <span class="p">:</span>
+		<span class="k">await</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="n">wait</span><span class="p">)</span>
+		<span class="k">return</span> <span class="k">await</span> <span class="n">channel</span><span class="o">.</span><span class="n">fetch_message</span><span class="p">(</span><span class="nb">id</span><span class="p">)</span>
+	<span class="k">except</span> <span class="n">discord</span><span class="o">.</span><span class="n">errors</span><span class="o">.</span><span class="n">NotFound</span> <span class="p">:</span>
+		<span class="k">return</span> <span class="kc">None</span></div>
+
+
+
+<div class="viewcode-block" id="delete_message">
+<a class="viewcode-back" href="../../discord_py_utilities.html#discord_py_utilities.messages.delete_message">[docs]</a>
+<span class="k">async</span> <span class="k">def</span> <span class="nf">delete_message</span><span class="p">(</span><span class="n">message</span><span class="p">:</span> <span class="n">discord</span><span class="o">.</span><span class="n">Message</span> <span class="o">|</span> <span class="n">discord</span><span class="o">.</span><span class="n">Thread</span><span class="p">)</span> <span class="p">:</span>
+<span class="w">	</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">	Delete a message. If the message is not found, return None. If the message is not found, send a message to the channel.</span>
+<span class="sd">	:param message:</span>
+<span class="sd">	:return:</span>
+<span class="sd">	&quot;&quot;&quot;</span>
+	<span class="k">try</span> <span class="p">:</span>
+		<span class="k">await</span> <span class="n">message</span><span class="o">.</span><span class="n">delete</span><span class="p">()</span>
+	<span class="k">except</span> <span class="n">discord</span><span class="o">.</span><span class="n">errors</span><span class="o">.</span><span class="n">Forbidden</span> <span class="p">:</span>
+		<span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">message</span><span class="p">,</span> <span class="n">discord</span><span class="o">.</span><span class="n">Message</span><span class="p">)</span> <span class="p">:</span>
+			<span class="k">await</span> <span class="n">send_message</span><span class="p">(</span><span class="n">message</span><span class="o">.</span><span class="n">channel</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;Could not delete message </span><span class="si">{</span><span class="n">message</span><span class="o">.</span><span class="n">jump_url</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+			<span class="k">return</span>
+		<span class="k">await</span> <span class="n">send_message</span><span class="p">(</span><span class="n">message</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;Could not delete message </span><span class="si">{</span><span class="n">message</span><span class="o">.</span><span class="n">jump_url</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+	<span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span> <span class="p">:</span>
+		<span class="n">logging</span><span class="o">.</span><span class="n">error</span><span class="p">(</span>
+			<span class="sa">f</span><span class="s2">&quot;Failed to delete </span><span class="si">{</span><span class="n">message</span><span class="si">}</span><span class="s2"> because </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div>
+
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Rico Stryker.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
