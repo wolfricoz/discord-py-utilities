@@ -2,6 +2,9 @@ import asyncio
 import logging
 
 import discord
+from discord import CategoryChannel, DMChannel, ForumChannel, GroupChannel, Member, StageChannel, TextChannel, Thread, \
+	User, \
+	VoiceChannel
 from discord.ext.commands.help import MISSING
 
 from .exceptions import NoChannelException, NoPermissionException
@@ -10,7 +13,7 @@ from .permissions import check_missing_channel_permissions
 MAX_LENGTH = 1800
 
 
-async def handle_no_permission(channel: discord.TextChannel | discord.User | discord.Member,
+async def handle_no_permission(channel: User | Member | VoiceChannel | StageChannel | TextChannel | ForumChannel | CategoryChannel | Thread | DMChannel | GroupChannel | None,
                                error_mode: str = 'error') :
 	"""
 	Handles no permission errors within the code based on error_modes: error, warn, ignore.
@@ -42,7 +45,7 @@ async def handle_no_permission(channel: discord.TextChannel | discord.User | dis
 			raise NoPermissionException(required_perms=missing_perms, channel=channel)
 
 
-async def send_message(channel: discord.TextChannel | discord.User | discord.Member, message: str = None, embed=None,
+async def send_message(channel: User | Member | VoiceChannel | StageChannel | TextChannel | ForumChannel | CategoryChannel | Thread | DMChannel | GroupChannel | None, message: str = None, embed=None,
                        view=None, files=None, error_mode: str = 'error') -> discord.Message :
 	"""Send a message to a channel, if there is no permission it will send an error message to the owner. Automatically handles messages longer than 2000 characters by splitting them into multiple messages.
 	:param channel:

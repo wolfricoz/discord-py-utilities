@@ -1,7 +1,9 @@
 from typing import Any
 
 import discord
-
+from discord import CategoryChannel, DMChannel, ForumChannel, GroupChannel, Member, StageChannel, TextChannel, Thread, \
+	User, \
+	VoiceChannel
 PERMISSIONS = [
 	"add_reactions", "administrator", "attach_files", "ban_members", "change_nickname", "connect",
 	"create_events", "create_expressions", "create_instant_invite", "create_polls", "create_private_threads",
@@ -18,15 +20,16 @@ PERMISSIONS = [
 ]
 
 
-def check_missing_channel_permissions(channel: discord.TextChannel,
-                                    permissions: str | list) -> list :
+def check_missing_channel_permissions(
+		channel: User | Member | VoiceChannel | StageChannel | TextChannel | ForumChannel | CategoryChannel | Thread | DMChannel | GroupChannel | None,
+		permissions: str | list) -> list :
 	"""
 	Check which permissions are missing for the bot in the specified channel.
 	:param channel:
 	:param permissions:
 	:return:
 	"""
-	if isinstance(channel, discord.User):
+	if isinstance(channel, discord.User) :
 		return ["User not added"]
 
 	if isinstance(permissions, str) :
@@ -35,6 +38,7 @@ def check_missing_channel_permissions(channel: discord.TextChannel,
 	if permissions is None :
 		return [perm for perm in PERMISSIONS if not getattr(bot_perms, perm)]
 	return [perm for perm in permissions if not getattr(bot_perms, perm)]
+
 
 def check_missing_guild_permissions(guild: discord.Guild, permissions: str | list[str]) -> None | list[str] :
 	"""
@@ -46,7 +50,6 @@ def check_missing_guild_permissions(guild: discord.Guild, permissions: str | lis
 		permissions = [permissions]
 	bot_perms = guild.me.guild_permissions
 	return [perm for perm in permissions if not getattr(bot_perms, perm)]
-
 
 
 def get_bot_permissions(guild: discord.Guild) -> discord.Permissions | dict :
@@ -64,7 +67,7 @@ def get_bot_permissions(guild: discord.Guild) -> discord.Permissions | dict :
 
 
 def check_bot_channel_permissions(channel: discord.TextChannel,
-                                        permissions: str | list[str] = None) -> list[str] :
+                                  permissions: str | list[str] = None) -> list[str] :
 	"""
 	Check if the bot has the required permissions in the channel, if no permissions are specified, it will return all the permissions the bot has in the channel.
 	:param channel:
@@ -79,16 +82,17 @@ def check_bot_channel_permissions(channel: discord.TextChannel,
 		return [perm for perm in PERMISSIONS if getattr(bot_perms, perm)]
 	return [perm for perm in permissions if getattr(bot_perms, perm)]
 
-def find_first_accessible_text_channel(guild: discord.Guild) -> discord.TextChannel | None:
+
+def find_first_accessible_text_channel(guild: discord.Guild) -> discord.TextChannel | None :
 	"""
 	Finds the first text channel in a guild where the bot has basic access permissions.
 	Returns None if no such channel is found.
 	"""
-	for channel in guild.text_channels:
-		if not isinstance(channel, discord.TextChannel):
+	for channel in guild.text_channels :
+		if not isinstance(channel, discord.TextChannel) :
 			continue
 
 		missing = check_missing_channel_permissions(channel, ["view_channel", "send_messages"])
-		if not missing:
+		if not missing :
 			return channel
 	return None
