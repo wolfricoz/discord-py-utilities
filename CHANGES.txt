@@ -5,3 +5,8 @@
 * Fixed a bug in exceptions.py where the error message was not being set correctly.
 0.0.9.7:
 * Changed types of channels to remove warnings due to discord.py updates.
+0.0.9.8:
+* You can now pass a channel to check_guild_invites so it makes an invite at that channel, instead of the first.
+
+0.1.0.1:
+* Changed the way invites are checked, to improve reliability.
