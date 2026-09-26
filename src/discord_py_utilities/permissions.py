@@ -29,7 +29,7 @@ def check_missing_channel_permissions(
 	:param permissions:
 	:return:
 	"""
-	if isinstance(channel, discord.User) :
+	if isinstance(channel, (discord.User, discord.Member, discord.DMChannel)) :
 		return ["User not added"]
 
 	if isinstance(permissions, str) :
