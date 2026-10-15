@@ -88,7 +88,7 @@ async def send_response(interaction: discord.Interaction, response, ephemeral=Fa
 		return await interaction.response.send_message(response, ephemeral=ephemeral, view=view, embed=embed)
 	except discord.errors.Forbidden :
 		await handle_no_permission(interaction.channel, error_mode=error_mode)
-	except discord.errors.NotFound or discord.InteractionResponded :
+	except (discord.errors.NotFound, discord.InteractionResponded):
 		try :
 			await interaction.followup.send(
 				response,
